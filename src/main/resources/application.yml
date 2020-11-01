@@ -1,0 +1,28 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: users-status-check
+          uri: "http://localhost:8081"
+          predicates:
+            - Path=/users/status/check # https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-path-route-predicate-factory
+            - Method=GET # https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-method-route-predicate-factory
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: albums
+          uri: "http://localhost:8091"
+          predicates:
+            - Path=/albums # https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-path-route-predicate-factory
+            - Method=GET # https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-method-route-predicate-factory
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: photos
+          uri: "http://localhost:8090"
+          predicates:
+            - Path=/photos # https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-path-route-predicate-factory
+            - Method=GET # https://cloud.spring.io/spring-cloud-gateway/reference/html/#the-method-route-predicate-factory
+          filters:
+            - RemoveRequestHeader=Cookie
